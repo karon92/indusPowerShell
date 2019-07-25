@@ -25,9 +25,18 @@
 		Type : est le type de message (INFO,WARN,ERR)
 		Fichier : 
 	Nous avons la fonction Titre qui permet de découper le fichier de log en chapitre.
-.PARAMETRE
-	Pas besoin de paramètre.
-.EXEMPLE
+.PARAMETER Aucun
+    Pas besoin de paramètre.
+.INPUTS
+    Ce script utilise des fonctions qui se trouvent sous ./lib/ et dont voici la liste :
+        - fFichiers.ps1
+        - fListeVar.ps1
+        - fLog.ps1
+        - fTitre.ps1
+.OUTPUTS
+    Un fichier de log est généré sous le répertoire ./log/ et il porte le même nom que 
+    le script avec l'extention .log
+.EXAMPLE
 	BackupIT.ps1
 #>
 
@@ -39,6 +48,9 @@
 
 ## Les variables que l'on trouve dans cette partie sont insdipensables
 ## au bon fonctionnement des fonctions chargées juste en dessous.
+## Certaines lignes définissant des variables sont commentées. C'est que la varible n'est pas 
+## Obligatoire pour faire fonctionner le script dans son fonctionnement standard.
+## Mais on peut décommenter ces lignes en cas de besoin.
 
 ##
 ## Arborescence
@@ -53,8 +65,11 @@ $REP_LOG = "$REP_LOCAL\log\"																					## Répertoire des fichiers de 
 ## Nom du script
 ##
 
-$NAME_SCRIPT = $MyInvocation.InvocationName.Split("\")[1]														## Récupération du nom du script
-#$NAME_SCRIPT = $MyInvocation.InvocationName.Split("\")[1].Split(".")[0]
+## Il y a un problème avec la ligne suivante qui ne retourne pas le nom du script 
+## lorsqu'on l'utilise sous le plannificateur de tâches :
+#$NAME_SCRIPT = $MyInvocation.InvocationName.Split("\")[1]														## Récupération du nom du script
+## Au contraire la ligne suivante retourne le nom du script quelque soit l'utilisation :
+$NAME_SCRIPT = $MyInvocation.MyCommand.Name																		## Récupération du nom du script
 Write-Host "Nom du script avec extension : $NAME_SCRIPT" -ForeGroundColor Blue
 If ($NAME_SCRIPT.length -gt 0)
 {
@@ -67,8 +82,8 @@ If ($NAME_SCRIPT.length -gt 0)
 ## Dates
 ##
 
-$Date_AAAAMMJJ_HHmm = Get-Date -format yyyyMMdd_HHmm															## Date au format AAAAMMJJ_HHmm
-$Date_AAAAMMJJ = Get-Date -format yyyyMMdd																		## Date au format AAAAMMJJ
+$Date_AAAAMMJJ_HHmm = Get-Date -format yyyyMMdd_HHmm					## Date au format yyyyMMdd_HHmm
+#$Date_AAAAMMJJ = Get-Date -format yyyyMMdd								## Date au format yyyyMMdd										## Date au format AAAAMMJJ
 
 ##
 ## Fichier de log
@@ -77,10 +92,27 @@ $Date_AAAAMMJJ = Get-Date -format yyyyMMdd																		## Date au format AA
 $FIC_LOG = $REP_LOG + $NAME_SCRIPT + "_" + $Date_AAAAMMJJ_HHmm + ".log"
 
 ###############################################################################
-##                                     Log                                   ##
+##                                Principale                                 ##
 ###############################################################################
 
-$ScriptFonction = "fLog.ps1"
+##
+## Cette partie du script est lancée une fois pour toute.
+## Après pour lancer une fonction qui se trouve sous $REP_LIB, il faut taper la ligne suivante
+##
+## LPrincipale Nom_du_Script $REP_LIB $NAME_SCRIPT
+##
+## Nom_du_Script : correspond au nom du script ps1 sans l'extension
+##
+## Pour que la fonction ainsi lancée fonctionne il faut créer la fonction comme suit
+## Function global:Nom_de_Fonction
+## {
+## 		...	
+## }
+## 
+## Il ne faut pas oublier global
+##
+
+$ScriptFonction = "fPrincipale.ps1"
 Try {
 	. $REP_LIB\$ScriptFonction
 }
@@ -94,64 +126,28 @@ Catch {
 		$Message = "Le script " + $ScriptFonction + " n'a pas pu être lancé car il n'existe pas.`nLe script " + $NAME_SCRIPT + ".ps1 est arrêté."
 	}
 	
-	Write-Host ($Message) -ForeGroundColor Red
-	#Write-Host ("Le script fLog.ps1 n'a pas pu être lancé.") | Out-File $FIC_LOG
-	Out-File -FilePath $FIC_LOG -InputObject $Message
-	Exit 1000
+    Write-Host ($Message) -ForeGroundColor Red
+	
+	Exit 6000
 }
+
+###############################################################################
+##                                     Log                                   ##
+###############################################################################
+
+LPrincipale fLog $REP_LIB $NAME_SCRIPT
 
 ###############################################################################
 ##                                    Titre                                  ##
 ###############################################################################
 
-#. $REP_LIB\fTitre.ps1
-
-$ScriptFonction = "fTitre.ps1"
-Try {
-	. $REP_LIB\$ScriptFonction
-}
-Catch {
-	$oFichier = New-Object system.IO.FileInfo "$REP_LIB\$ScriptFonction"
-	If ($oFichier.Get_Exists())
-	{
-		$Message = "Il y a une erreur dans le script " + $ScriptFonction + ".`nLe script " + $NAME_SCRIPT + ".ps1 est arrêté."
-	}
-	Else {
-		$Message = "Le script " + $ScriptFonction + " n'a pas pu être lancé car il n'existe pas.`nLe script " + $NAME_SCRIPT + ".ps1 est arrêté."
-	}
-	
-	Write-Host ($Message) -ForeGroundColor Red
-	#Write-Host ("Le script fLog.ps1 n'a pas pu être lancé.") | Out-File $FIC_LOG
-	Out-File -FilePath $FIC_LOG -InputObject $Message
-	Exit 2000
-}
-
+LPrincipale fTitre $REP_LIB $NAME_SCRIPT
 
 ###############################################################################
 ##                     Liste les variables du script                         ##
 ###############################################################################
 
-#. $REP_LIB\fListeVAR.ps1
-
-$ScriptFonction = "fListeVAR.ps1"
-Try {
-	. $REP_LIB\$ScriptFonction
-}
-Catch {
-	$oFichier = New-Object system.IO.FileInfo "$REP_LIB\$ScriptFonction"
-	If ($oFichier.Get_Exists())
-	{
-		$Message = "Il y a une erreur dans le script " + $ScriptFonction + ".`nLe script " + $NAME_SCRIPT + ".ps1 est arrêté."
-	}
-	Else {
-		$Message = "Le script " + $ScriptFonction + " n'a pas pu être lancé car il n'existe pas.`nLe script " + $NAME_SCRIPT + ".ps1 est arrêté."
-	}
-	
-	Write-Host ($Message) -ForeGroundColor Red
-	#Write-Host ("Le script fLog.ps1 n'a pas pu être lancé.") | Out-File $FIC_LOG
-	Out-File -FilePath $FIC_LOG -InputObject $Message
-	Exit 3000
-}
+LPrincipale fListeVAR $REP_LIB $NAME_SCRIPT
 
 ListeVAR Before																									## Liste les variables externes au script
 
@@ -160,10 +156,33 @@ ListeVAR Before																									## Liste les variables externes au scrip
 ###############################################################################
 
 ## La fonction fichier a besoin de la fonction log pour fonctionner
-## donc nous sommes obliger de la mettre après celle-ci
-#. $REP_LIB\fFichiers.ps1
+## donc nous sommes obligé de la mettre après celle-ci
 
-$ScriptFonction = "fFichiers.ps1"
+LPrincipale fFichiers $REP_LIB $NAME_SCRIPT 4000
+
+###############################################################################
+##                          Fonction sur les Disques                         ##
+###############################################################################
+
+##
+## Cette fonction permet d'afficher les informations sur les disques.
+##
+## Ce script est utilisé en tapant la ligne suivante :
+##
+## LDTaille E
+##
+## ## Espace libre
+## $Free = (LDTaille E).free
+## $Free ## Espace libre en octet
+##
+## Pour l'utiliser, il faut décommenter les lignes suivantes : 
+##
+## Fonction créée le : 12/11/2018
+## Par : Laurent DEVOUCOUX
+##
+
+<#
+$ScriptFonction = "fDisque.ps1"
 Try {
 	. $REP_LIB\$ScriptFonction
 }
@@ -178,10 +197,11 @@ Catch {
 	}
 	
 	Write-Host ($Message) -ForeGroundColor Red
-	#Write-Host ("Le script fLog.ps1 n'a pas pu être lancé.") | Out-File $FIC_LOG
-	Out-File -FilePath $FIC_LOG -InputObject $Message
-	Exit 4000
+	
+	#Out-File -FilePath $FIC_LOG -InputObject $Message -Append
+	Exit 5000
 }
+#>
 
 ###############################################################################
 ##                                                                           ##
@@ -197,13 +217,8 @@ Catch {
 
 ## Paramètres
 
-#[CmdletBinding()]
-#Param (
-#	[switch]$VERSION
-#)
-
 $MyVERSION = '0.0.1'
-$VERSION_Mod = '1.1.3'																							## Version du modèle
+#$VERSION_Mod = '1.2'																							## Version du modèle
 
 If ($VERSION.IsPresent)
 {
@@ -217,21 +232,36 @@ If ($VERSION.IsPresent)
 ## Divers
 ##
 
-$VersionPS = $PSVersionTable.PSVersion.Major																	## Version de PowerShell utilisée
+#$VersionPS = $PSVersionTable.PSVersion.Major																	## Version de PowerShell utilisée
 $oSeparation = "*"*80
+
+##
+## La variable $MACHINE a été créée le 07/11/2018
+## La ligne est à décommenter si vous voulez l'utiliser
+## 
+
+#$MACHINE = $env:COMPUTERNAME												   									## Récupère le nom de la machine
 
 ##
 ## Arborescence
 ##
 
-$REP_TMP = "$REP_LOCAL\tmp\"																					## Répertoire tmp
+#$REP_TMP = "$REP_LOCAL\tmp\"																					## Répertoire tmp
+
 ##
 ## Les variables $REP_IN et $REP_OUT ont été ajoutées le 23/04/2018
 ## Tous les fichiers qui sont utilisés en entrée devront être placés de préférence dans le répertoire $REP_IN
 ## Tandis que tous les fichiers qui sont utilisés en sortie devront être placés dans le répertoire $REP_OUT 
 ##
-$REP_IN	= "$REP_LOCAL\in"																						## Répertoire des fichiers en entrée
-$REP_OUT = "$REP_LOCAL\out"																						## Répertoire des fichiers en sortie
+
+#$REP_IN  = "$REP_LOCAL\in"																						## Répertoire des fichiers en entrée
+#$REP_OUT = "$REP_LOCAL\out"																				    ## Répertoire des fichiers en sortie
+
+##
+## La variable $REP_CONF a été créée le 07/11/2018
+##
+
+#$REP_CONF = "$REP_LOCAL\conf"
 
 $oLIST_REP = Get-Variable REP* -Scope Script
 $NBR_REP = $oLIST_REP.Count -1																					## Compte le nombre de variable REP*
@@ -242,11 +272,11 @@ $NBR_REP = $oLIST_REP.Count -1																					## Compte le nombre de variab
 
 $oFichiers_log = Get-ChildItem $REP_LOG
 $Nbr_Fichiers_Log_Avant = $oFichiers_log.Count
-Get-ChildItem -Path $REP_LOG | ?{$_.LastWriteTime -lt (get-date).AddMinutes(-10)} | %{Remove-Item $REP_LOG/$_ -Force}
+Get-ChildItem -Path $REP_LOG | Where-Object {($_.LastWriteTime -lt (get-date).AddMinutes(-10)) -and ($_.BaseName -match $NAME_SCRIPT)} | ForEach-Object {Remove-Item $REP_LOG/$_ -Force}
 $oFichiers_log = Get-ChildItem $REP_LOG
 $Nbr_Fichiers_Log_Apres = $oFichiers_log.Count
 $Nbr_Fichiers_Log = $Nbr_Fichiers_Log_Avant - $Nbr_Fichiers_Log_Apres
-#Write-Output ("Nombre de fichier(s) de log supprimé(s) : {0}" -f $Nbr_Fichiers_Log)
+
 $Message = "Nombre de fichier(s) de log supprimé(s) : $Nbr_Fichiers_Log"
 Log $Message INFO 1
 
@@ -315,7 +345,7 @@ Log "Message test INFO" INFO 1
 Log "Message test WARN" WARN 1
 Log "Message test ERR" ERR 1
 
-###############################################################################
+##############################################################################
 ##                                    FIN                                    ##
 ###############################################################################
 

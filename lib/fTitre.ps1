@@ -7,9 +7,10 @@
 ##
 ## MODIFICATIONS :
 ## DATE :		PAR :					OBSERVATIONS:
-## JJ/MM/AAAA
+## 07/12/2018	Laurent DEVOUCOUX		Ajout de global pour la fonction puisse être lancée
+## 										au travers d'une autre fonction.
 ##
-## VERSION 0.0.1 
+## VERSION 0.0.2 
 ##
 ##Requires -Version 2.0
 ###############################################################################
@@ -20,11 +21,11 @@
 .DESCRIPTION
 	Titre "TITRE" "Char" [["Cadre"] [largeur]]
 	
-.PARAMETRE
+.PARAMETER
 	Les paramètres que l'on doit fournir à cette fonction :
 		- Texte : Correspond au titre que l'on doit centrer
 		- Char : Les caractères qui entourent le titre
-.EXEMPLE
+.EXAMPLE
 	Titre "TITRE" "**"
 #>
 
@@ -42,7 +43,7 @@
 ##                                    Titre                                  ##
 ###############################################################################
 
-Function Titre($Texte,$Char)
+Function global:Titre($Texte,$Char)
 {
 	$lTexte = $Texte.Length / 2																					## Calcul la taille du titre
 	$lChar = $Char.Length																						## Nombre de caractère autour du titre

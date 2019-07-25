@@ -8,8 +8,10 @@
 ## MODIFICATIONS :
 ## DATE :		PAR :					OBSERVATIONS:
 ## 21/03/2018	Laurent DEVOUCOUX		Mise en place d'un horodatage pour les logs
+## 07/12/2018	Laurent DEVOUCOUX		Ajout de global pour la fonction puisse être lancée
+## 										au travers d'une autre fonction.
 ##
-## VERSION 0.0.1 
+## VERSION 0.0.3 
 ##
 ##Requires -Version 2.0
 ###############################################################################
@@ -24,21 +26,28 @@
 		Message : est le texte que l'on veut faire apparaître dans le fichier de log.
 		Type : est le type de message (INFO,WARN,ERR)
 		Fichier : 
-.PARAMETRE
-	Pas besoin de paramètre.
-.EXEMPLE
+.PARAMETER Message
+	C'est le texte qui sera intégré au fichier de log.
+.PARAMETER Type
+	Détermine si on a à faire :
+		- A une information : INFO
+		- A une alerte : WARN
+		- A une erreur : ERR
+.INPUTS
+.OUTPUTS
+.EXAMPLE
 	
 	Pour afficher une information :
 	
-		fLog.ps1 "Message" INFO 1
+		Log "Message" INFO 1
 	
 	Pour afficher une alerte :
 	
-		fLog.ps1 "Message" WARN 1
+		Log "Message" WARN 1
 	
 	Pour afficher une erreur :
 	
-		fLog.ps1 "Message" ERR 1
+		Log "Message" ERR 1
 #>
 
 ###############################################################################
@@ -55,7 +64,10 @@
 ##                                     Log                                   ##
 ###############################################################################
 
-Function Log($Message,$Type,$File)
+## La ligne suivante permet de tester le bon lancement de 
+## la fonction
+#Write-Host ("Ce script est lancé...") -ForegroundColor Green
+Function global:Log($Message,$Type,$File)
 {
 	$Type = $Type.ToUpper()
 	$File = [int]$File

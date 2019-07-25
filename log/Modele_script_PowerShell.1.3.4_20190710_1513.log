@@ -1,21 +1,21 @@
 ﻿**********************
 Windows PowerShell transcript start
-Start time: 20180705112209
-Username: LFR01333\LDEVOUCOUX
-RunAs User: LFR01333\LDEVOUCOUX
-Machine: LFR01333 (Microsoft Windows NT 6.1.7601 Service Pack 1)
+Start time: 20190710151323
+Username: LR001333\LDEVOUCOUX
+RunAs User: LR001333\LDEVOUCOUX
+Machine: LR001333 (Microsoft Windows NT 6.1.7601 Service Pack 1)
 Host Application: powershell
-Process ID: 7088
-PSVersion: 5.1.14409.1012
+Process ID: 6000
+PSVersion: 5.1.14409.1018
 PSEdition: Desktop
-PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14409.1012
-BuildVersion: 10.0.14409.1012
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14409.1018
+BuildVersion: 10.0.14409.1018
 CLRVersion: 4.0.30319.42000
 WSManStackVersion: 3.0
 PSRemotingProtocolVersion: 2.3
 SerializationVersion: 1.1.0.1
 **********************
-Transcript started, output file is E:\programmation\powershell\01 - Modele\log\Modele_script_PowerShell.1.1.3_20180705_1122.log
+Transcript started, output file is E:\programmation\powershell\01 - Modele\log\Modele_script_PowerShell.1.3.4_20190710_1513.log
 
 ********************************************************************************
 **                                Les Variables                               **
@@ -27,37 +27,29 @@ NAME                   VALUE
 Message                Nombre de fichier(s) de log supprimé(s) : 0
 MyVERSION              0.0.1
 Nbr_Fichiers_Log       0
-Nbr_Fichiers_Log_Apres 1
-Nbr_Fichiers_Log_Avant 1
-NBR_REP                5
-REP_IN                 E:\programmation\powershell\01 - Modele\in
-REP_OUT                E:\programmation\powershell\01 - Modele\out
-REP_TMP                E:\programmation\powershell\01 - Modele\tmp\
-VERSION_Mod            1.1.3
-VersionPS              5
+Nbr_Fichiers_Log_Apres 0
+Nbr_Fichiers_Log_Avant 0
+NBR_REP                2
 
 
 ********************************************************************************
 **                              Les Répertoires                               **
 ********************************************************************************
-2018-07-05 11:22:09 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\in est présent
-2018-07-05 11:22:09 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\lib\ est présent
-2018-07-05 11:22:09 INFO:          Le répertoire E:\programmation\powershell\01 - Modele est présent
-2018-07-05 11:22:09 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\log\ est présent
-2018-07-05 11:22:09 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\out est présent
-2018-07-05 11:22:09 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\tmp\ est présent
+2019-07-10 15:13:24 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\lib\ est présent
+2019-07-10 15:13:24 INFO:          Le répertoire E:\programmation\powershell\01 - Modele est présent
+2019-07-10 15:13:24 INFO:          Le répertoire E:\programmation\powershell\01 - Modele\log\ est présent
 ********************************************************************************
 
 ********************************************************************************
 **                                  Générale                                  **
 ********************************************************************************
-2018-07-05 11:22:09 INFO:          Message test INFO
-2018-07-05 11:22:09 WARNING:       Message test WARN
-2018-07-05 11:22:09 ERROR:         Message test ERR
+2019-07-10 15:13:24 INFO:          Message test INFO
+2019-07-10 15:13:24 WARNING:       Message test WARN
+2019-07-10 15:13:24 ERROR:         Message test ERR
 ********************************************************************************
 **                                    FIN                                     **
 ********************************************************************************
 **********************
 Windows PowerShell transcript end
-End time: 20180705112209
+End time: 20190710151324
 **********************

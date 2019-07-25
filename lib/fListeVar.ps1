@@ -7,9 +7,10 @@
 ##
 ## MODIFICATIONS :
 ## DATE :		PAR :					OBSERVATIONS:
-## JJ/MM/AAAA
+## 07/12/2018	Laurent DEVOUCOUX		Ajout de global pour la fonction puisse être lancée
+## 										au travers d'une autre fonction.
 ##
-## VERSION 0.0.1 
+## VERSION 0.0.3 
 ##
 ##Requires -Version 2.0
 ###############################################################################
@@ -19,9 +20,9 @@
 	
 .DESCRIPTION
 	
-.PARAMETRE
+.PARAMETER
 	
-.EXEMPLE
+.EXAMPLE
 	
 #>
 
@@ -39,7 +40,7 @@
 ##                                  ListeVAR                                 ##
 ###############################################################################
 
-Function ListeVAR ($Instant)
+Function global:ListeVAR ($Instant)
 {
 	$Global:tVar = @()
     ## Remise à 0 des variables utilisées dans le script
@@ -66,7 +67,7 @@ Function ListeVAR ($Instant)
         ForEach ($Line in $DiffB)
         {
 			$Var = new-object Psobject
-            $Espace = 2
+            #$Espace = 2
             $Name = $Line.Name
             $Value = $Line.Value
 

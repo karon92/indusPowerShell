@@ -24,9 +24,9 @@
 		Message : est le texte que l'on veut faire apparaître dans le fichier de log.
 		Type : est le type de message (INFO,WARN,ERR)
 		Fichier : 
-.PARAMETRE
+.PARAMETER
 	Pas besoin de paramètre.
-.EXEMPLE
+.EXAMPLE
 	BackupIT.ps1
 #>
 
@@ -40,16 +40,16 @@
 ## Divers
 ##
 
-$NAME_SCRIPT = $MyInvocation.InvocationName.Split("\")[1].Split(".")[0]											## Récupération du nom du script
-$VersionPS = $PSVersionTable.PSVersion.Major																	## Version de PowerShell utilisé
-$Separation = "*"*80
+#$NAME_SCRIPT = $MyInvocation.InvocationName.Split("\")[1].Split(".")[0]											## Récupération du nom du script
+#$VersionPS = $PSVersionTable.PSVersion.Major																	## Version de PowerShell utilisé
+#$Separation = "*"*80
 
 ##
 ## Dates
 ##
 
-$Date_AAAAMMJJ_HHmm = Get-Date -format yyyyMMdd_HHmm															## Date au format AAAAMMJJ_HHmm
-$Date_AAAAMMJJ = Get-Date -format yyyyMMdd																		## Date au format AAAAMMJJ
+#$Date_AAAAMMJJ_HHmm = Get-Date -format yyyyMMdd_HHmm															## Date au format AAAAMMJJ_HHmm
+#$Date_AAAAMMJJ = Get-Date -format yyyyMMdd																		## Date au format AAAAMMJJ
 
 ##
 ## Arborescence
@@ -58,16 +58,16 @@ $Date_AAAAMMJJ = Get-Date -format yyyyMMdd																		## Date au format AA
 #$REP_LOCAL = Get-Location																						## Répertoire courrant
 
 #$REP_LIB = "$REP_LOCAL\lib\"																					## Répertoire des librairies
-$REP_LOG = "$REP_LOCAL\log\"																					## Répertoire des fichiers de log
-$REP_TMP = "$REP_LOCAL\tmp\"																					## Répertoire tmp
+#$REP_LOG = "$REP_LOCAL\log\"																					## Répertoire des fichiers de log
+#$REP_TMP = "$REP_LOCAL\tmp\"																					## Répertoire tmp
 
-$LIST_REP = Get-Variable REP* -Scope Script
-$NBR_REP = $LIST_REP.Count -1																					## Compte le nombre de variable REP*
+#$LIST_REP = Get-Variable REP* -Scope Script
+#$NBR_REP = $LIST_REP.Count -1																					## Compte le nombre de variable REP*
 
 ##
 ## Fichiers
 ##
 
-$FIC_LOG = $REP_LOG + $NAME_SCRIPT + "_" + $Date_AAAAMMJJ_HHmm + ".log"
+#$FIC_LOG = $REP_LOG + $NAME_SCRIPT + "_" + $Date_AAAAMMJJ_HHmm + ".log"
 
 Exit 0
