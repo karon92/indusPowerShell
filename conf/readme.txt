@@ -1,0 +1,1 @@
+## Fichier pour mettre objet dans le répertoire ./conf/
