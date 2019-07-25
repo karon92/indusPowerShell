@@ -9,6 +9,8 @@
 ## DATE :		PAR :					OBSERVATIONS:
 ## 07/12/2018	Laurent DEVOUCOUX		Ajout de global pour la fonction puisse être lancée
 ## 										au travers d'une autre fonction.
+## 25/07/2019	Laurent DEVOUCOUX		Remplacement de la commande Write-Output par la commande
+##										Write-Host
 ##
 ## VERSION 0.0.2 
 ##
@@ -68,7 +70,17 @@ Function global:Titre($Texte,$Char)
 		$Reg = " " * $Reg
 		$Titre = $Char + $Espace + $Texte +  $Reg + $Char
 	}
-	Write-Output ($oSeparation)																					## Début Titre
-	Write-Output ($Titre)																						## Affiche le titre centré
-	Write-Output ($oSeparation)																					## Fin Titre
+	## 
+	## Un problème d'ordre d'affichage des lignes
+	## m'oblige a utiliser la commande Write-Host a la place de
+	## la commande Write-Output
+	## Modification effectuée le 25/07/2019 par LDX
+	##
+
+	#Write-Output ($oSeparation)																					## Début Titre
+	#Write-Output ($Titre)																						## Affiche le titre centré
+	#Write-Output ($oSeparation)
+	Write-Host ($oSeparation)																					## Début Titre
+	Write-Host ($Titre)																						## Affiche le titre centré
+	Write-Host ($oSeparation)																					## Fin Titre
 }

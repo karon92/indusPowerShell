@@ -246,7 +246,7 @@ $oSeparation = "*"*80
 ## Arborescence
 ##
 
-#$REP_TMP = "$REP_LOCAL\tmp\"																					## Répertoire tmp
+$REP_TMP = "$REP_LOCAL\tmp\"																					## Répertoire tmp
 
 ##
 ## Les variables $REP_IN et $REP_OUT ont été ajoutées le 23/04/2018
@@ -254,14 +254,16 @@ $oSeparation = "*"*80
 ## Tandis que tous les fichiers qui sont utilisés en sortie devront être placés dans le répertoire $REP_OUT 
 ##
 
-#$REP_IN  = "$REP_LOCAL\in"																						## Répertoire des fichiers en entrée
-#$REP_OUT = "$REP_LOCAL\out"																				    ## Répertoire des fichiers en sortie
+$REP_IN  = "$REP_LOCAL\in"																						## Répertoire des fichiers en entrée
+$REP_OUT = "$REP_LOCAL\out"																				    ## Répertoire des fichiers en sortie
 
 ##
 ## La variable $REP_CONF a été créée le 07/11/2018
 ##
 
-#$REP_CONF = "$REP_LOCAL\conf"
+$REP_CONF = "$REP_LOCAL\conf"
+
+$REP_CONF = "$REP_LOCAL\toto" ## Ligne de test a supprimer
 
 $oLIST_REP = Get-Variable REP* -Scope Script
 $NBR_REP = $oLIST_REP.Count -1																					## Compte le nombre de variable REP*
@@ -310,13 +312,23 @@ Titre "Les Répertoires" "**"
 
 For($i=0;$i -le $NBR_REP;$i++)
 {
+	$Nom_du_REP = $oLIST_REP[$i].Value
+	$Message = "Nom du repertoire : " + $Nom_du_REP
+	Log $Message INFO 1
+
+	#$Nom_du_REP = $Nom_du_REP.ToString()
+	#$Nom_du_REP2 = $Nom_du_REP.Split("\")[-1]
+	#$Message = "Nom du repertoire transforme : " + $Nom_du_REP2
+	#Log $Message INFO 1
+
 	If (-not (Test-Path $oLIST_REP[$i].Value))
 	{
 		## Le répertoire n'est pas présent, nous allons le créé
-		New-Item -ItemType Directory -Name $oLIST_REP[$i].Value.Split("\")[-2]
+		#New-Item -ItemType Directory -Name $oLIST_REP[$i].Value.Split("\")[-1] 
+		$Silence = New-Item -ItemType Directory -InformationAction:SilentlyContinue -Path $oLIST_REP[$i].Value.Split("\")[-1] 
 		#Write-Output ("Le répertoire {0} n'existait pas, il a été créé" -f $oLIST_REP[$i].Value)
-		$Message = "Le répertoire $($oLIST_REP[$i].Value) n'existait pas, il a été créé"
-		Log $Message INFO 1
+		$Message = "Le répertoire $($Silence.Name) n'existait pas, il a été créé"
+		Log $Message WARN 1
 	}
 	Else
 	{
@@ -326,20 +338,22 @@ For($i=0;$i -le $NBR_REP;$i++)
 		Log $Message INFO 1
 	}
 }
-Write-Output ($oSeparation)																						## Fin du test sur les répertoires
-Write-Output (" ")																								## Insère une ligne blanche dans le fichier de log
+Write-Host ($oSeparation)																						## Fin du test sur les répertoires
+Write-Host (" ")																								## Insère une ligne blanche dans le fichier de log
 
 ## Partie principale du script
 
 ## Début du script
 
-Titre "Générale" "**"
+
 
 ###############################################################################
 ##                                                                           ##
 ##                              DEBUT DU SCRIPT                              ##
 ##                                                                           ##
 ###############################################################################
+
+Titre "Générale" "**"
 
 Log "Message test INFO" INFO 1
 Log "Message test WARN" WARN 1
